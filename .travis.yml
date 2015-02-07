@@ -9,5 +9,5 @@ before_install:
   - sudo apt-get update -qq -y
   - sudo apt-get install libpcre3-dev julia -y
 script:
-  - julia -e 'Pkg.init(); run(`ln -s $(pwd()) $(Pkg.dir("Permutations"))`); Pkg.pin("Permutations"); Pkg.resolve()'
-  - julia -e 'using Permutations; @assert isdefined(:Permutations); @assert typeof(Permutations) === Module'
+  - julia -e 'Pkg.init(); run(`ln -s $(pwd()) $(Pkg.dir("LatexPrint"))`); Pkg.pin("LatexPrint"); Pkg.resolve()'
+  - julia -e 'using LatexPrint; @assert isdefined(:LatexPrint); @assert typeof(LatexPrint) === Module'
