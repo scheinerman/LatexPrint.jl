@@ -131,7 +131,7 @@ julia> lap("Hello, world!")
 
 ### Arrays
 
-Vectors (one-dimensional array) and matrices (two-dimensional) arrays
+Vectors (one-dimensional arrays) and matrices (two-dimensional arrays)
 are converted into LaTeX `array` environments bounded by square
 brackets with centering alignment. (These default options can be
 changed; see "Customizing existing types" later in this document.)
