@@ -237,7 +237,7 @@ $\frac{5}{2}$ & $\infty$
 
 Notice that each entry is encased in dollar signs. 
 
-By default, the each column is center aligned. This can be modified in
+By default, each column is center aligned. This can be modified in
 two ways. See the `set_align` function described below or by calling
 `tabular` with an optional second argument like this:
 
@@ -331,7 +331,7 @@ the following functions.
   `\empytset`. In that case, the Julia command would be
   `set_emptyset("\\varnothing")`. 
 
-* `set_alignment` is used to specify the alignment character for
+* `set_align` is used to specify the alignment character for
   arrays. By default elements of columns are aligned to their
   center. Use one of `l`, `r`, or `c` as the alignment character.
   ```julia
