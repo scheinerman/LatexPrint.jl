@@ -213,6 +213,41 @@ julia> lap(C)
 \emptyset
 ```
 
+## The `tabular` function
+
+If `A` is a matrix (two-dimensional array), then `laprintln(A)` (or
+`lap(A)`) prints the LaTeX code for that matrix (complete with
+bounding delimeters) for inclusion in LaTeX's mathematics mode.
+
+As an alternative, we also provide the function `tabular` that prints
+the array for inclusion in LaTeX's text mode in the `tabular`
+environment.
+
+```julia
+julia> A = Array(Any,(2,2));
+
+julia> A[1,1] = 1; A[1,2] = 3+im; A[2,1]=5//2; A[2,2] = 1/0;
+
+julia> tabular(A)
+\begin{tabular}{cc}
+$1$ & $3+1i$\\
+$\frac{5}{2}$ & $\infty$
+\end{tabular}
+```
+
+Notice that each entry is encased in dollar signs. 
+
+By default, the each column is center aligned. This can be modified in
+two ways. See the `set_align` function described below or by calling
+`tabular` with an optional second argument like this:
+
+```julia
+julia> tabular(A,"l|r")
+\begin{tabular}{l|r}
+$1$ & $3+1i$\\
+$\frac{5}{2}$ & $\infty$
+\end{tabular}
+```
 
 
 ## Customization
