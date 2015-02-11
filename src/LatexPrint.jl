@@ -160,13 +160,13 @@ function latex_form(A::Union(Set,IntSet))
     end
     n = length(elements)
 
-    result = "\\{"
+    result = "\\left\\{"
     for k=1:n
         result *= latex_form(elements[k])
         if k<n
             result *= ","
         else
-            result *= "\\}"
+            result *= "\\right\\}"
         end
     end
     return result

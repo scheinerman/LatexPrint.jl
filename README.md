@@ -198,13 +198,13 @@ julia> A = Set({3.5, 2, -5})
 Set{Any}({2,-5,3.5})
 
 julia> lap(A)
-\{-5,2,3.5\}
+\left\{-5,2,3.5\}\right
 
 julia> B = IntSet(4,5,1)
 IntSet([1, 4, 5])
 
 julia> lap(B)
-\{1,4,5\}
+\left\{1,4,5\right\}
 
 julia> C = Set()
 Set{Any}({})
