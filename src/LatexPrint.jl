@@ -1,6 +1,6 @@
 module LatexPrint
 
-export latex_form, laprint, laprintln, lap
+export latex_form, laprint, laprintln, lap, tabular
 
 export set_nan, set_inf, set_emptyset, set_delims, set_align
 export set_im, set_bool
@@ -99,7 +99,7 @@ function latex_form(x::MathConst)
         return "\\gamma"
     end
 
-    return latex_form(float(x))  # some math constant we don't know 
+    return latex_form(float(x))  # some math constant we don't know
 end
 
 # integers are easy: just convert to string
@@ -178,18 +178,18 @@ function latex_form{T}(A::Array{T,1})
     for x in A
         result *= latex_form(x)*EOL
     end
-    result *= "\\end{array}\n\\right" * RIGHT 
+    result *= "\\end{array}\n\\right" * RIGHT
     return result
 end
 
 # Matrices (2-dimensional arrays)
 function latex_form{T}(A::Array{T,2})
-    (r,c) = size(A) 
-    
+    (r,c) = size(A)
+
     # Header
-    result  = "\\left" * LEFT * "\n\\begin{array}{" 
+    result  = "\\left" * LEFT * "\n\\begin{array}{"
     result *= (ALIGN ^ c) * "}\n"
-    
+
     # Row-by-row
     for a=1:r
         for b=1:c
@@ -203,10 +203,10 @@ function latex_form{T}(A::Array{T,2})
     end
 
     # close up
-    result *= "\\end{array}\n\\right" * RIGHT 
+    result *= "\\end{array}\n\\right" * RIGHT
     return result
 end
-    
+
 # catch all for any types we've not implemented
 latex_form(x::Any) = string(x)
 
@@ -224,7 +224,7 @@ function laprintln(x...)
     println(xs...)
 end
 
-lap(x...) = laprintln(x...)  # abbreviation 
+lap(x...) = laprintln(x...)  # abbreviation
 
 # Same functions, but now with IO option.
 
@@ -239,5 +239,31 @@ function laprintln(io::IO, x...)
 end
 
 lap(io::IO, x...) = laprintln(io, x...)
+
+function tabular{T}(A::Array{T,2}, alignment::ASCIIString)
+    (r,c) = size(A)
+    println("\\begin{tabular}{", alignment, "}")
+    for a=1:r
+        for b=1:c
+            print("\$",latex_form(A[a,b]),"\$")
+            if b<c
+                print(" & ")
+            else
+                if a<r
+                    println("\\\\")
+                end
+            end
+        end
+    end
+    println("\n\\end{tabular}")
+end
+
+function tabular{T}(A::Array{T,2})
+    (r,c) = size(A)
+    alignment = ALIGN^c
+    tabular(A,alignment)
+end
+
+
 
 end # end of module LatexPrint
