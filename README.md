@@ -1,6 +1,11 @@
 # LatexPrint
 Print Julia objects in LaTeX form.
 
+## Installation
+
+Use `Pkg.clone("https://gihub.com/scheinerman/LatexPrint.jl")` (one time) to install and then `using LatexPrint`
+whenever you want to use these functions.
+
 ## Key functions
 
 This module provides functions for converting Julia objects into
