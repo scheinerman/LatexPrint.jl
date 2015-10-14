@@ -21,26 +21,43 @@ global RIGHT = "]"   # default right delimiter
 global ALIGN = "c"   # default alignment character
 
 # The set_xxx functions may take a string or a single character
-Ctype = Union(ASCIIString,Char)
+Ctype = Union{ASCIIString,Char}
 
+"""
+`set_nan(msg)` sets the `latex_print` output for a `NaN` value.
+"""
 function set_nan(msg::Ctype)
     global NAN = string(msg)
 end
 
+"""
+`set_inf(msg)` sets the `latex_print` output for infinity.
+"""
 function set_inf(msg::Ctype)
     global INF = string(msg)
 end
 
+"""
+`set_emptyset(msg)` sets the `latex_print` output for the empty set.
+"""
 function set_emptyset(msg::Ctype)
     global EMPTYSET = string(msg)
 end
 
+"""
+`set_delims(lt,rt)` sets the `latex_print` output for left and right 
+matrix delimeters.
+"""
 function set_delims(lt::Ctype, rt::Ctype)
     global LEFT = string(lt)
     global RIGHT = string(rt)
     return (lt,rt)
 end
 
+"""
+`set_align(ch)` sets the alignment character for matrices. Should
+be one of `l`, `r`, or `c`.
+"""
 function set_align(ch::Ctype)
     global ALIGN = string(ch)
     if length(ALIGN) != 1
@@ -48,10 +65,17 @@ function set_align(ch::Ctype)
     end
 end
 
+"""
+`set_im(ch)` sets the output for \$i\$ (square root of -1).
+"""
 function set_im(i::Ctype)
     global IM = string(i)
 end
 
+"""
+`set_bool(tmsg, fmsg)` sets the output for the Boolean values
+`true` and `false`.
+"""
 function set_bool(t::Ctype, f::Ctype)
     global TRUE = string(t)
     global FALSE = string(f)
@@ -65,10 +89,14 @@ end
 # can define more (as described in the README document).
 
 # character strings we wrap in "\text"
-latex_form(words::String) = "\\text{" * words * "}"
+"""
+`latex_form(arg)` writes `arg` to the screen in a form
+suitable for pasting into a LaTeX document.
+"""
+latex_form(words::AbstractString) = "\\text{" * words * "}"
 
 # floating point numbers are passed through, unless NaN or Inf
-function latex_form(x::FloatingPoint)
+function latex_form(x::AbstractFloat)
     if isnan(x)
         return NAN
     end
@@ -82,7 +110,7 @@ function latex_form(x::FloatingPoint)
 end
 
 # special case for MathConst's
-function latex_form(x::MathConst)
+function latex_form(x::Irrational)
     if x==pi
         return "\\pi"
     end
@@ -150,7 +178,7 @@ function latex_form{T}(z::Complex{T})
 end
 
 # Sets
-function latex_form(A::Union(Set,IntSet))
+function latex_form(A::Union{Set,IntSet})
     if isempty(A)
         return EMPTYSET
     end
@@ -213,17 +241,27 @@ latex_form(x::Any) = string(x)
 # The print functions in all their forms. They simply apply latex_form
 # to their argument(s) and pass the resulting string(s) to the
 # corresponding version of print.
-
-function laprint(x...)
+"""
+`laprint(x...)` is like Julia's `print` but converts each 
+argument using `latex_print`.
+"""
+ function laprint(x...)
     xs = map(latex_form,x)
     print(xs...)
 end
 
+"""
+`laprintln(x...)` is like Julia's `print` but converts each 
+argument using `latex_print`.
+"""
 function laprintln(x...)
     xs = map(latex_form,x)
     println(xs...)
 end
 
+"""
+`lap(x...)` is a short version of `laprintln(x...)`.
+"""
 lap(x...) = laprintln(x...)  # abbreviation
 
 # Same functions, but now with IO option.
