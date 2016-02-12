@@ -1,5 +1,6 @@
 module LatexPrint
-
+# import DataFrames.DataFrame
+using DataFrames
 export latex_form, laprint, laprintln, lap, tabular
 
 export set_nan, set_inf, set_emptyset, set_delims, set_align
@@ -45,7 +46,7 @@ function set_emptyset(msg::Ctype)
 end
 
 """
-`set_delims(lt,rt)` sets the `latex_print` output for left and right 
+`set_delims(lt,rt)` sets the `latex_print` output for left and right
 matrix delimeters.
 """
 function set_delims(lt::Ctype, rt::Ctype)
@@ -168,8 +169,8 @@ function latex_form{T}(z::Complex{T})
     a,b = reim(z)
 
     if T == Bool  # Complex{Bool} treated like Complex{Int}
-        a = int(a)
-        b = int(b)
+        a = Int(a)
+        b = Int(b)
     end
 
     op = b >= 0 ? "+" : "-"
@@ -242,7 +243,7 @@ latex_form(x::Any) = string(x)
 # to their argument(s) and pass the resulting string(s) to the
 # corresponding version of print.
 """
-`laprint(x...)` is like Julia's `print` but converts each 
+`laprint(x...)` is like Julia's `print` but converts each
 argument using `latex_print`.
 """
  function laprint(x...)
@@ -251,7 +252,7 @@ argument using `latex_print`.
 end
 
 """
-`laprintln(x...)` is like Julia's `print` but converts each 
+`laprintln(x...)` is like Julia's `print` but converts each
 argument using `latex_print`.
 """
 function laprintln(x...)
@@ -300,6 +301,39 @@ function tabular{T}(A::Array{T,2})
     (r,c) = size(A)
     alignment = ALIGN^c
     tabular(A,alignment)
+end
+
+function tabular(A::DataFrame, alignment::ASCIIString; rounding::Int = 0)
+    (r,c) = size(A)
+    println("\\begin{tabular}{", alignment, "}")
+    println("\\hline")
+    for (i,name) in enumerate(names(A))
+        print(name)
+        if i < length(names(A))
+            print(" & ")
+        end
+    end
+    println("\\\\")
+    println("\\hline")
+    for a=1:r
+        for b=1:c
+            print("\$",latex_form((rounding > 0) ? round(A[a,b],rounding) : A[a,b]),"\$")
+            if b<c
+                print(" & ")
+            else
+                if a<r
+                    println("\\\\")
+                end
+            end
+        end
+    end
+    println("\n\\end{tabular}")
+end
+
+function tabular(A::DataFrame; rounding::Int = 0)
+    (r,c) = size(A)
+    alignment = ALIGN^c
+    tabular(A,alignment; rounding = rounding)
 end
 
 
