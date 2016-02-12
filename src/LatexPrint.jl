@@ -1,6 +1,5 @@
 module LatexPrint
-# import DataFrames.DataFrame
-using DataFrames
+import DataFrames.DataFrame
 export latex_form, laprint, laprintln, lap, tabular
 
 export set_nan, set_inf, set_emptyset, set_delims, set_align
