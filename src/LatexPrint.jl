@@ -316,7 +316,7 @@ function tabular(A::DataFrame, alignment::ASCIIString; rounding::Int = 0)
     println("\\hline")
     for a=1:r
         for b=1:c
-            print("\$",latex_form((rounding > 0) ? round(A[a,b],rounding) : A[a,b]),"\$")
+            print("\$",latex_form((rounding > 0) && typeof(A[a,b])<:Number ? round(A[a,b],rounding) : A[a,b]),"\$")
             if b<c
                 print(" & ")
             else
