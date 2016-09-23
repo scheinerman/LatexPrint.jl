@@ -21,7 +21,7 @@ global RIGHT = "]"   # default right delimiter
 global ALIGN = "c"   # default alignment character
 
 # The set_xxx functions may take a string or a single character
-Ctype = Union{ASCIIString,Char}
+Ctype = Union{String,Char}
 
 """
 `set_nan(msg)` sets the `latex_print` output for a `NaN` value.
@@ -83,7 +83,7 @@ function set_bool(t::Ctype, f::Ctype)
 end
 
 # The latex_form function is the central workhorse for converting a
-# Julia object to a character string (of type ASCIIString) that can be
+# Julia object to a character string (of type String) that can be
 # printed (and then pasted into LaTeX mathmode). We create a version
 # for each Julia datatype that we might want to render in LaTeX. Users
 # can define more (as described in the README document).
@@ -278,7 +278,7 @@ end
 
 lap(io::IO, x...) = laprintln(io, x...)
 
-function tabular{T}(A::Array{T,2}, alignment::ASCIIString)
+function tabular{T}(A::Array{T,2}, alignment::String)
     (r,c) = size(A)
     println("\\begin{tabular}{", alignment, "}")
     for a=1:r
@@ -302,7 +302,7 @@ function tabular{T}(A::Array{T,2})
     tabular(A,alignment)
 end
 
-function tabular(A::DataFrame, alignment::ASCIIString; rounding::Int = 0)
+function tabular(A::DataFrame, alignment::String; rounding::Int = 0)
     (r,c) = size(A)
     println("\\begin{tabular}{", alignment, "}")
     println("\\hline")
