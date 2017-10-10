@@ -1,4 +1,13 @@
 # LatexPrint
+
+[![Build Status](https://travis-ci.org/scheinerman/LatexPrint.jl.svg?branch=master)](https://travis-ci.org/scheinerman/LatexPrint.jl)
+
+[![Coverage Status](https://coveralls.io/repos/scheinerman/LatexPrint.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/scheinerman/LatexPrint.jl?branch=master)
+
+[![codecov.io](http://codecov.io/github/scheinerman/LatexPrint.jl/coverage.svg?branch=master)](http://codecov.io/github/scheinerman/LatexPrint.jl?branch=master)
+
+
+
 Print Julia objects in LaTeX form.
 
 ## Installation
@@ -37,7 +46,7 @@ julia> latex_form(x)
 ```
 
 The double backslash in the output of `latex_form` is converted to a
-single backslash when run through a `print` function. 
+single backslash when run through a `print` function.
 
 
 ## Supported Types
@@ -90,7 +99,7 @@ julia> lap(10//2)
 5
 ```
 
-#### Complex numbers 
+#### Complex numbers
 
 Complex numbers always include a real and an imaginary part, even if
 either part equals zero:
@@ -196,7 +205,7 @@ julia> lap(x')
 Julia `Set` and `IntSet` objects are rendered as a comma separated
 list between curly braces. The elements are sorted into ascending
 order (if possible). An empty set is returned as `\emptyset` (unless
-another form is specified using `set_empty`). 
+another form is specified using `set_empty`).
 
 ```julia
 julia> A = Set({3.5, 2, -5})
@@ -240,7 +249,7 @@ $\frac{5}{2}$ & $\infty$
 \end{tabular}
 ```
 
-Notice that each entry is encased in dollar signs. 
+Notice that each entry is encased in dollar signs.
 
 By default, each column is center aligned. This can be modified in
 two ways. See the `set_align` function described below or by calling
@@ -334,7 +343,7 @@ the following functions.
   ```
   Users might like to try `\varnothing` as a nice alternative to
   `\empytset`. In that case, the Julia command would be
-  `set_emptyset("\\varnothing")`. 
+  `set_emptyset("\\varnothing")`.
 
 * `set_align` is used to specify the alignment character for
   arrays. By default elements of columns are aligned to their
@@ -362,7 +371,7 @@ the following functions.
   ```
 
 * `set_delims` is used to specify the left and right delimiters used
-  for vectors and matrices. 
+  for vectors and matrices.
   ```julia
   julia> A = int(eye(2))
   2x2 Array{Int64,2}:
@@ -414,4 +423,3 @@ latex_form (generic function with xxx methods)
 julia> lap(1:10)
 [1,10]
 ```
-
