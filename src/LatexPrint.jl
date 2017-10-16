@@ -201,7 +201,7 @@ function latex_form(A::Union{Set,IntSet})
 end
 
 # Vectors (1-dimensional arrays)
-function latex_form{T}(A::Array{T,1})
+function latex_form{T}(A::AbstractArray{T,1})
     result = "\\left" * LEFT * "\n\\begin{array}{" * ALIGN * "}\n"
     for x in A
         result *= latex_form(x)*EOL
@@ -211,7 +211,7 @@ function latex_form{T}(A::Array{T,1})
 end
 
 # Matrices (2-dimensional arrays)
-function latex_form{T}(A::Array{T,2})
+function latex_form{T}(A::AbstractArray{T,2})
     (r,c) = size(A)
 
     # Header
@@ -278,7 +278,7 @@ end
 
 lap(io::IO, x...) = laprintln(io, x...)
 
-function tabular{T}(A::Array{T,2}, alignment::String)
+function tabular{T}(A::AbstractArray{T,2}, alignment::String)
     (r,c) = size(A)
     println("\\begin{tabular}{", alignment, "}")
     for a=1:r
@@ -296,7 +296,7 @@ function tabular{T}(A::Array{T,2}, alignment::String)
     println("\n\\end{tabular}")
 end
 
-function tabular{T}(A::Array{T,2})
+function tabular{T}(A::AbstractArray{T,2})
     (r,c) = size(A)
     alignment = ALIGN^c
     tabular(A,alignment)
