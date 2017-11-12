@@ -138,8 +138,8 @@ latex_form(x::Bool) = x ? TRUE : FALSE
 
 # rational numbers are presented as \frac fractions
 function latex_form{T}(q::Rational{T})
-    a::T = num(q)
-    b::T = den(q)
+    a::T = numerator(q)
+    b::T = denominator(q)
 
     if b==0  # This is some form of infinity
         if a>0
