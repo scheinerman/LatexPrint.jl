@@ -111,19 +111,19 @@ end
 
 # special case for MathConst's
 function latex_form(x::Irrational)
-    if x==pi
+    if x==Base.MathConstants.pi
         return "\\pi"
     end
 
-    if x==e
+    if x==Base.MathConstants.e
         return "e"
     end
 
-    if x==golden
+    if x==Base.MathConstants.golden
         return "\\phi"
     end
 
-    if x==eulergamma
+    if x==Base.MathConstants.eulergamma
         return "\\gamma"
     end
 
@@ -137,7 +137,7 @@ latex_form(x::Integer) = string(x)
 latex_form(x::Bool) = x ? TRUE : FALSE
 
 # rational numbers are presented as \frac fractions
-function latex_form{T}(q::Rational{T})
+function latex_form(q::Rational{T}) where T
     a::T = numerator(q)
     b::T = denominator(q)
 
@@ -157,7 +157,7 @@ function latex_form{T}(q::Rational{T})
 end
 
 # Complex numbers
-function latex_form{T}(z::Complex{T})
+function latex_form(z::Complex{T}) where T
     if isnan(z)
         return NAN
     end
@@ -178,13 +178,14 @@ function latex_form{T}(z::Complex{T})
 end
 
 # Sets
-function latex_form(A::Union{Set,IntSet})
+function latex_form(A::Union{Set,BitSet})
     if isempty(A)
         return EMPTYSET
     end
     elements = collect(A)
     try
         sort!(elements)
+    catch
     end
     n = length(elements)
 
@@ -201,7 +202,7 @@ function latex_form(A::Union{Set,IntSet})
 end
 
 # Vectors (1-dimensional arrays)
-function latex_form{T}(A::AbstractArray{T,1})
+function latex_form(A::AbstractArray{T,1}) where T
     result = "\\left" * LEFT * "\n\\begin{array}{" * ALIGN * "}\n"
     for x in A
         result *= latex_form(x)*EOL
@@ -211,7 +212,7 @@ function latex_form{T}(A::AbstractArray{T,1})
 end
 
 # Matrices (2-dimensional arrays)
-function latex_form{T}(A::AbstractArray{T,2})
+function latex_form(A::AbstractArray{T,2}) where T
     (r,c) = size(A)
 
     # Header
@@ -278,7 +279,7 @@ end
 
 lap(io::IO, x...) = laprintln(io, x...)
 
-function tabular{T}(A::AbstractArray{T,2}, alignment::String)
+function tabular(A::AbstractArray{T,2}, alignment::String) where T
     (r,c) = size(A)
     println("\\begin{tabular}{", alignment, "}")
     for a=1:r
@@ -296,7 +297,7 @@ function tabular{T}(A::AbstractArray{T,2}, alignment::String)
     println("\n\\end{tabular}")
 end
 
-function tabular{T}(A::AbstractArray{T,2})
+function tabular(A::AbstractArray{T,2}) where T
     (r,c) = size(A)
     alignment = ALIGN^c
     tabular(A,alignment)
