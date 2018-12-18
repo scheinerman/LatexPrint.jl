@@ -11,3 +11,6 @@ using LatexPrint
 @test latex_form(pi) == "\\pi"
 @test latex_form([1,2]) == "\\left[\n\\begin{array}{c}\n1 \\\\\n2 \\\\\n\\end{array}\n\\right]"
 @test latex_form([1,2]') == "\\left[\n\\begin{array}{cc}\n1 & 2 \\\\\n\\end{array}\n\\right]"
+@test latex_form(pi) == "\\pi"
+@test latex_form(Set(1:4)) == "\\left\\{1,2,3,4\\right\\}"
+@test latex_form(true) == "\\mathrm{T}"
