@@ -32,7 +32,7 @@ We also provide the function `laprint` which does not append a new
 line (just like `print`).
 
 These functions rely on `latex_form` which converts a Julia object
-into an `ASCIIString` representation in its LaTeX form:
+into an `String` representation in its LaTeX form:
 
 ```julia
 julia> latex_form(x)
@@ -125,7 +125,7 @@ julia> lap(false)
 
 ### Text
 
-The LaTeX version of an `ASCIIString` is wrapped in the command
+The LaTeX version of an `String` is wrapped in the command
 `\text` (which requires the `amsmath` package in LaTeX). The rationale
 is that we always want to able to paste the output of `lap` directly
 into mathematics mode in LaTeX.
@@ -398,7 +398,7 @@ the following functions.
 There are other Julia types (such as `UnitRange`) for which
 we have not implemented a conversion to LaTeX. In this
 case `lap` (and our other functions) simply convert the type
-to an `ASCIIString`.
+to an `String`.
 
 ```julia
 julia> lap(1:10)
