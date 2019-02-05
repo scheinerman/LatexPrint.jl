@@ -123,6 +123,11 @@ julia> lap(false)
 \mathrm{F}
 ```
 
+### `nothing`
+
+A `nothing` value is rendered as `\mathrm{nothing}`.
+
+
 ### Text
 
 The LaTeX version of an `String` is wrapped in the command
@@ -391,7 +396,18 @@ the following functions.
   \end{array}
   \right)
   ```
++ `set_nothing` is used to specify the output of a `nothing` value. For
+  example, to output an em-dash, we can do this:
+  ```julia
+  julia> lap(nothing)
+  \mathrm{nothing}
 
+  julia> set_nothing("\\mathrm{---}")
+  "\\mathrm{---}"
+
+  julia> lap(nothing)
+  \mathrm{---}
+  ```
 
 ### Adding new types
 

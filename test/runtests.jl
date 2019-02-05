@@ -14,3 +14,4 @@ using LatexPrint
 @test latex_form(pi) == "\\pi"
 @test latex_form(Set(1:4)) == "\\left\\{1,2,3,4\\right\\}"
 @test latex_form(true) == "\\mathrm{T}"
+@test latex_form(nothing) == "\\mathrm{nothing}"

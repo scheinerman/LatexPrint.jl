@@ -3,7 +3,7 @@ import DataFrames.DataFrame
 export latex_form, laprint, laprintln, lap, tabular
 
 export set_nan, set_inf, set_emptyset, set_delims, set_align
-export set_im, set_bool
+export set_im, set_bool, set_nothing
 
 const EOL = " \\\\\n"  # end rows in matrices
 const TAB = " & "      # tab for matrices
@@ -15,6 +15,7 @@ global FALSE = "\\mathrm{F}"   # default for boolean false
 global IM = "i"                # default for sqrt(-1)
 
 global EMPTYSET = "\\emptyset" # default for empty set
+global NOTHING = "\\mathrm{nothing}"  # default for nothing value
 
 global LEFT = "["    # default left delimiter for matrices
 global RIGHT = "]"   # default right delimiter
@@ -28,6 +29,13 @@ Ctype = Union{String,Char}
 """
 function set_nan(msg::Ctype)
     global NAN = string(msg)
+end
+
+"""
+`set_nothing(msg)` sets the `latex_print` output for a `nothing` value.
+"""
+function set_nothing(msg::Ctype)
+    global NOTHING = string(msg)
 end
 
 """
@@ -235,6 +243,9 @@ function latex_form(A::AbstractArray{T,2}) where T
     result *= "\\end{array}\n\\right" * RIGHT
     return result
 end
+
+# form for a `nothing` value
+latex_form(x::Nothing) = NOTHING
 
 # catch all for any types we've not implemented
 latex_form(x::Any) = string(x)
