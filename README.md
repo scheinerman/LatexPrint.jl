@@ -14,7 +14,7 @@ Julia objects are first converted to a form suitable for
 LaTeX. Because `laprintln` is a lot to type, we also provide the
 abbreviation `lap`.
 
-```julia
+```
 julia> using LatexPrint
 
 julia> x = 2//6
@@ -30,7 +30,7 @@ line (just like `print`).
 These functions rely on `latex_form` which converts a Julia object
 into an `String` representation in its LaTeX form:
 
-```julia
+```
 julia> latex_form(x)
 "\\frac{1}{3}"
 ```
@@ -47,7 +47,7 @@ single backslash when run through a `print` function.
 
 `FloatingPoint` and `Integer` numbers are printed unchanged.
 
-```julia
+```
 julia> lap(sqrt(2))
 1.4142135623730951
 
@@ -57,7 +57,7 @@ julia> lap(23)
 
 However, infinite and invalid values are printed as follows:
 
-```julia
+```
 julia> lap(1/0)
 \infty
 
@@ -71,7 +71,7 @@ julia> lap(0/0)
 Julia's `MathConst` numbers are printed using their expected LaTeX
 form:
 
-```julia
+```
 julia> lap(pi)
 \pi
 ```
@@ -81,7 +81,7 @@ julia> lap(pi)
 Rational numbers are printed as fractions (unless the denominator
 happens to be 1, in which case we print as an integer).
 
-```julia
+```
 julia> lap(10//4)
 \frac{5}{2}
 
@@ -94,7 +94,7 @@ julia> lap(10//2)
 Complex numbers always include a real and an imaginary part, even if
 either part equals zero:
 
-```julia
+```
 julia> z = 1+im
 1 + 1im
 
@@ -111,7 +111,7 @@ julia> lap(im^im)
 ### Boolean values
 
 The `Bool` values `true` and `false` output like this:
-```julia
+```
 julia> lap(true)
 \mathrm{T}
 
@@ -131,7 +131,7 @@ The LaTeX version of an `String` is wrapped in the command
 is that we always want to able to paste the output of `lap` directly
 into mathematics mode in LaTeX.
 
-```julia
+```
 julia> lap("Hello, world!")
 \text{Hello, world!}
 ```
@@ -145,7 +145,7 @@ are converted into LaTeX `array` environments bounded by square
 brackets with centering alignment. (These default options can be
 changed; see "Customizing existing types" later in this document.)
 
-```julia
+```
 julia> x = [1,2,3]
 3-element Array{Int64,1}:
  1
@@ -180,7 +180,7 @@ julia> lap(A)
 Vectors are, by default, rendered as a column. To typeset a vector as
 a row, simply take its transpose:
 
-```julia
+```
 julia> x = [2//3, 4//3, 6//3]
 3-element Array{Rational{Int64},1}:
  2//3
@@ -202,7 +202,7 @@ list between curly braces. The elements are sorted into ascending
 order (if possible). An empty set is returned as `\emptyset` (unless
 another form is specified using `set_empty`).
 
-```julia
+```
 julia> A = Set({3.5, 2, -5})
 Set{Any}({2,-5,3.5})
 
@@ -232,7 +232,7 @@ As an alternative, we also provide the function `tabular` that prints
 the array for inclusion in LaTeX's text mode in the `tabular`
 environment.
 
-```julia
+```
 julia> A = Array{Any}(nothing,2,2);
 
 julia> A[1,1] = 1; A[1,2] = 3+im; A[2,1]=5//2; A[2,2] = 1/0;
@@ -250,7 +250,7 @@ By default, each column is center aligned. This can be modified in
 two ways. See the `set_align` function described below or by calling
 `tabular` with the named `alignment` argument, like this:
 
-```julia
+```
 julia> tabular(A,alignment="l|r")
 \begin{tabular}{l|r}
 $1$ & $3+1i$\\
@@ -262,14 +262,14 @@ In addition, the end-of-line command `\\` can be changed to
 `\\ \hline` (so LaTeX inserts a horizontal line between rows)
 by means of the named `hlines` argument:
 
-```julia
+```
 julia> tabular(A,hlines=true)
 \begin{tabular}{cc}
 $1$ & $3+1i$\\ \hline
 $\frac{5}{2}$ & $\infty$
 \end{tabular}
 ```
-Note that the last row of the array does not include an `\hline`. 
+Note that the last row of the array does not include an `\hline`.
 
 
 ## Customization
@@ -282,7 +282,7 @@ the following functions.
 
 * `set_inf` is used to set the representation of infinity. The default
 	creates the output `\infty` but here's how it can be changed.
-	```julia
+	```
 	julia> lap(1/0)
 	\infty
 
@@ -308,7 +308,7 @@ the following functions.
 * `set_bool` is used to set the LaTeX form of `true` and `false`. By
   default, these output `\textrm{T}` and `\textrm{F}`. This is how
   these can be changed:
-  ```julia
+  ```
   julia> lap(true)
   \mathrm{T}
 
@@ -321,7 +321,7 @@ the following functions.
 
 * `set_im` changes the symbol used for the imaginary unit. Some folks
   like *j* instead of *i*:
-  ```julia
+  ```
   julia> z = 3+2im
   3 + 2im
 
@@ -336,7 +336,7 @@ the following functions.
   ```
 * `set_emptyset` is used to specify how an empty set should be
   rendered.
-  ```julia
+  ```
   julia> C = Set()
   Set{Any}({})
 
@@ -356,7 +356,7 @@ the following functions.
 * `set_align` is used to specify the alignment character for
   arrays. By default elements of columns are aligned to their
   center. Use one of `l`, `r`, or `c` as the alignment character.
-  ```julia
+  ```
   julia> lap(A)
   \left[
   \begin{array}{c}
@@ -380,7 +380,7 @@ the following functions.
 
 * `set_delims` is used to specify the left and right delimiters used
   for vectors and matrices.
-  ```julia
+  ```
   julia> A = int(eye(2))
   2x2 Array{Int64,2}:
    1  0
@@ -407,7 +407,7 @@ the following functions.
   ```
 + `set_nothing` is used to specify the output of a `nothing` value. For
   example, to output an em-dash, we can do this:
-  ```julia
+  ```
   julia> lap(nothing)
   \mathrm{nothing}
 
@@ -425,7 +425,7 @@ we have not implemented a conversion to LaTeX. In this
 case `lap` (and our other functions) simply convert the type
 to an `String`.
 
-```julia
+```
 julia> lap(1:10)
 1:10
 ```
@@ -433,7 +433,7 @@ julia> lap(1:10)
 If we want to create a LaTeX representation, then we
 need to define a suitable version of `latex_form` like this:
 
-```julia
+```
 julia> import LatexPrint.latex_form
 
 julia> latex_form(x::UnitRange) = "[" * string(x.start) * "," * string(x.stop) * "]"
