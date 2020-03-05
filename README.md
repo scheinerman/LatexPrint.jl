@@ -1,9 +1,5 @@
 # LatexPrint
 
-[![Build Status](https://travis-ci.org/scheinerman/LatexPrint.jl.svg?branch=master)](https://travis-ci.org/scheinerman/LatexPrint.jl)
-
-[![codecov.io](http://codecov.io/github/scheinerman/LatexPrint.jl/coverage.svg?branch=master)](http://codecov.io/github/scheinerman/LatexPrint.jl?branch=master)
-
 
 
 Print Julia objects in LaTeX form.
@@ -237,7 +233,7 @@ the array for inclusion in LaTeX's text mode in the `tabular`
 environment.
 
 ```julia
-julia> A = Array(Any,(2,2));
+julia> A = Array{Any}(nothing,2,2);
 
 julia> A[1,1] = 1; A[1,2] = 3+im; A[2,1]=5//2; A[2,2] = 1/0;
 
@@ -252,15 +248,28 @@ Notice that each entry is encased in dollar signs.
 
 By default, each column is center aligned. This can be modified in
 two ways. See the `set_align` function described below or by calling
-`tabular` with an optional second argument like this:
+`tabular` with the named `alignment` argument, like this:
 
 ```julia
-julia> tabular(A,"l|r")
+julia> tabular(A,alignment="l|r")
 \begin{tabular}{l|r}
 $1$ & $3+1i$\\
 $\frac{5}{2}$ & $\infty$
 \end{tabular}
 ```
+
+In addition, the end-of-line command `\\` can be changed to
+`\\ \hline` (so LaTeX inserts a horizontal line between rows)
+by means of the named `hlines` argument:
+
+```julia
+julia> tabular(A,hlines=true)
+\begin{tabular}{cc}
+$1$ & $3+1i$\\ \hline
+$\frac{5}{2}$ & $\infty$
+\end{tabular}
+```
+Note that the last row of the array does not include an `\hline`. 
 
 
 ## Customization

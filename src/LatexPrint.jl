@@ -21,6 +21,9 @@ global LEFT = "["    # default left delimiter for matrices
 global RIGHT = "]"   # default right delimiter
 global ALIGN = "c"   # default alignment character
 
+global STD_EOL = "\\\\"
+global HLINE_EOL = "\\\\ \\hline"
+
 # The set_xxx functions may take a string or a single character
 Ctype = Union{String,Char}
 
@@ -290,8 +293,27 @@ end
 
 lap(io::IO, x...) = laprintln(io, x...)
 
-function tabular(A::AbstractArray{T,2}, alignment::String) where T
+get_eol(std::Bool) = std ? STD_EOL : HLINE_EOL
+
+"""
+`tabular(A)` returns a LaTeX version of the two-dimensional array `A`.
+This function takes two optional (named) arguments:
+* `alignment` is a `String` giving the LaTeX alignment codes for the columns.
+    For example, if `A` is a `2`-by-`3` array, then `"cc|r"` would specify that the
+    first two columns are centered, then a vertical bar,
+    and then the third column is right justified. Default
+    is that all columns are `c` unless this default is changed by `set_align()`.
+* `hlines` is a `Bool` for controlling the addition of `\\hline` at the end of
+    every row (except the last row). This is `false` by default.
+"""
+function tabular(A::AbstractArray{T,2}; alignment::String="", hlines::Bool=false) where T
+    eol = get_eol(!hlines)
     (r,c) = size(A)
+
+    if length(alignment)==0
+        alignment = ALIGN^c
+    end
+
     println("\\begin{tabular}{", alignment, "}")
     for a=1:r
         for b=1:c
@@ -300,22 +322,27 @@ function tabular(A::AbstractArray{T,2}, alignment::String) where T
                 print(" & ")
             else
                 if a<r
-                    println("\\\\")
+                    println(eol)
                 end
             end
         end
     end
     println("\n\\end{tabular}")
 end
+#
+# function tabular(A::AbstractArray{T,2};hlines::Bool=false ) where T
+#     (r,c) = size(A)
+#     align = ALIGN^c
+#     tabular(A,alignment=align,hlines=hlines)
+# end
 
-function tabular(A::AbstractArray{T,2}) where T
+function tabular(A::DataFrame; alignment::String="", rounding::Int = 0)
     (r,c) = size(A)
-    alignment = ALIGN^c
-    tabular(A,alignment)
-end
 
-function tabular(A::DataFrame, alignment::String; rounding::Int = 0)
-    (r,c) = size(A)
+    if length(alignment)==0
+        alignment = ALIGN^c
+    end
+
     println("\\begin{tabular}{", alignment, "}")
     println("\\hline")
     for (i,name) in enumerate(names(A))
@@ -324,7 +351,7 @@ function tabular(A::DataFrame, alignment::String; rounding::Int = 0)
             print(" & ")
         end
     end
-    println("\\\\")
+    println(line_end)
     println("\\hline")
     for a=1:r
         for b=1:c
@@ -340,12 +367,12 @@ function tabular(A::DataFrame, alignment::String; rounding::Int = 0)
     end
     println("\n\\end{tabular}")
 end
-
-function tabular(A::DataFrame; rounding::Int = 0)
-    (r,c) = size(A)
-    alignment = ALIGN^c
-    tabular(A,alignment; rounding = rounding)
-end
+#
+# function tabular(A::DataFrame; rounding::Int = 0)
+#     (r,c) = size(A)
+#     align = ALIGN^c
+#     tabular(A,alignment=align; rounding = rounding)
+# end
 
 
 
