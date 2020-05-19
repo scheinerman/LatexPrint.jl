@@ -4,6 +4,13 @@
 
 Print Julia objects in LaTeX form.
 
+## Installation
+
+Enter the package manager by typing a close bracket: `]` and then
+```
+pkg> add https://github.com/scheinerman/LatexPrint.jl
+```
+
 
 ## Key functions
 
