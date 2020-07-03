@@ -8,7 +8,7 @@ Print Julia objects in LaTeX form.
 
 Enter the package manager by typing a close bracket: `]` and then
 ```
-pkg> add https://github.com/scheinerman/LatexPrint.jl
+pkg> add LatexPrint
 ```
 
 
