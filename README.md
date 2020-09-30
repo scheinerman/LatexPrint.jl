@@ -1,5 +1,6 @@
 # LatexPrint
 
+[![Build Status](https://travis-ci.com/scheinerman/LatexPrint.jl.svg?branch=master)](https://travis-ci.com/scheinerman/LatexPrint.jl)
 
 
 Print Julia objects in LaTeX form.
