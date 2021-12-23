@@ -1,34 +1,36 @@
-import DataFrames.DataFrame
+import .DataFrames.DataFrame
 
 
-function tabular(A::DataFrame; alignment::String="", rounding::Int = 0)
+function tabular(io::IO, A::DataFrame; alignment::String="", rounding::Int = 0)
     (r,c) = size(A)
 
     if length(alignment)==0
         alignment = ALIGN^c
     end
 
-    println("\\begin{tabular}{", alignment, "}")
-    println("\\hline")
+    println(io, "\\begin{tabular}{", alignment, "}")
+    println(io, "\\hline")
     for (i,name) in enumerate(names(A))
-        print(name)
+        print(io, name)
         if i < length(names(A))
-            print(" & ")
+            print(io, " & ")
         end
     end
-    println(line_end)
-    println("\\hline")
+    println(io, get_eol(false))
+    println(io, "\\hline")
     for a=1:r
         for b=1:c
-            print("\$",latex_form((rounding > 0) && typeof(A[a,b])<:Number ? round(A[a,b],rounding) : A[a,b]),"\$")
+            print(io, "\$",latex_form((rounding > 0) && typeof(A[a,b])<:Number ? round(A[a,b],rounding) : A[a,b]),"\$")
             if b<c
-                print(" & ")
+                print(io, " & ")
             else
                 if a<r
-                    println("\\\\")
+                    println(io, "\\\\")
                 end
             end
         end
     end
-    println("\n\\end{tabular}")
+    println(io, "\n\\end{tabular}")
 end
+
+tabular(A::DataFrame; kwargs...) = tabular(stdout, A; kwargs...)
