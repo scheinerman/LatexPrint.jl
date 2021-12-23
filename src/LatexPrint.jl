@@ -4,6 +4,8 @@ export latex_form, laprint, laprintln, lap, tabular
 export set_nan, set_inf, set_emptyset, set_delims, set_align
 export set_im, set_bool, set_nothing
 
+using Requires
+
 const EOL = " \\\\\n"  # end rows in matrices
 const TAB = " & "      # tab for matrices
 
@@ -327,6 +329,14 @@ function tabular(A::AbstractArray{T,2}; alignment::String="", hlines::Bool=false
         end
     end
     println("\n\\end{tabular}")
+end
+
+function __init__()
+    @require DataFrames="a93c6f00-e57d-5684-b7b6-d8193f3e46c0" include("tabular_dataframes.jl")
+    @require Measurements="eff96d63-e80a-5855-80a2-b1b0885c5ab7" begin
+        using .Measurements: Measurement
+        latex_form(x::Measurement) = latex_form(x.val) * "\\pm " * latex_form(x.err)
+    end
 end
 
 end # end of module LatexPrint

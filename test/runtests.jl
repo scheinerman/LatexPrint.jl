@@ -1,5 +1,6 @@
 using Test
 using LatexPrint
+using Measurements
 
 @test latex_form(-5) == "-5"
 @test latex_form(2.2) == "2.2"
@@ -15,3 +16,4 @@ using LatexPrint
 @test latex_form(Set(1:4)) == "\\left\\{1,2,3,4\\right\\}"
 @test latex_form(true) == "\\mathrm{T}"
 @test latex_form(nothing) == "\\mathrm{nothing}"
+@test latex_form(7.0±2.0) == "7.0\\pm 2.0"
