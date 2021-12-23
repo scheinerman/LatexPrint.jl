@@ -1,6 +1,7 @@
 using Test
 using LatexPrint
 using Measurements
+using DataFrames
 
 @test latex_form(-5) == "-5"
 @test latex_form(2.2) == "2.2"
@@ -17,3 +18,9 @@ using Measurements
 @test latex_form(true) == "\\mathrm{T}"
 @test latex_form(nothing) == "\\mathrm{nothing}"
 @test latex_form(7.0±2.0) == "7.0\\pm 2.0"
+
+io = IOBuffer()
+df = DataFrame("Name" => ["A", "B"], "Score" => Any[6.1±1.3, π])
+tabular(io, df)
+str = String(take!(io))
+@test str == "\\begin{tabular}{cc}\n\\hline\nName & Score\\\\ \\hline\n\\hline\n\$\\text{A}\$ & \$6.1\\pm 1.3\$\\\\\n\$\\text{B}\$ & \$\\pi\$\n\\end{tabular}\n"
