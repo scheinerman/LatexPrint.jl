@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>LatexPrint · LatexPrint</title><meta name="title" content="LatexPrint · LatexPrint"/><meta property="og:title" content="LatexPrint · LatexPrint"/><meta property="twitter:title" content="LatexPrint · LatexPrint"/><meta name="description" content="Documentation for LatexPrint."/><meta property="og:description" content="Documentation for LatexPrint."/><meta property="twitter:description" content="Documentation for LatexPrint."/><script data-outdated-warner src="assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="search_index.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href>LatexPrint</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>LatexPrint</a><ul class="internal"><li><a class="tocitem" href="#Key-Functions"><span>Key Functions</span></a></li><li><a class="tocitem" href="#Numbers"><span>Numbers</span></a></li><li><a class="tocitem" href="#Boolean-Values"><span>Boolean Values</span></a></li><li><a class="tocitem" href="#nothing"><span><code>nothing</code></span></a></li><li><a class="tocitem" href="#Text"><span>Text</span></a></li><li><a class="tocitem" href="#Arrays"><span>Arrays</span></a></li><li><a class="tocitem" href="#Sets"><span>Sets</span></a></li><li><a class="tocitem" href="#The-tabular-Function"><span>The <code>tabular</code> Function</span></a></li><li><a class="tocitem" href="#Customization"><span>Customization</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>LatexPrint</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>LatexPrint</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/scheinerman/LatexPrint.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/scheinerman/LatexPrint.jl/blob/master/docs/src/index.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="LatexPrint"><a class="docs-heading-anchor" href="#LatexPrint">LatexPrint</a><a id="LatexPrint-1"></a><a class="docs-heading-anchor-permalink" href="#LatexPrint" title="Permalink"></a></h1><p>Print Julia objects in LaTeX form.</p><blockquote><p>Instead of seeing <code>1//3</code> in your document, you get to have <span>$\frac{1}{3}$</span>. </p></blockquote><h2 id="Key-Functions"><a class="docs-heading-anchor" href="#Key-Functions">Key Functions</a><a id="Key-Functions-1"></a><a class="docs-heading-anchor-permalink" href="#Key-Functions" title="Permalink"></a></h2><p>This module provides functions for converting Julia objects into string representations for use in LaTeX mathematics mode. The primary function is <code>laprintln</code> which behaves precisely like <code>println</code> except Julia objects are first converted to a form suitable for LaTeX. Because <code>laprintln</code> is a lot to type, we also provide the abbreviation <code>lap</code>.</p><pre><code class="nohighlight hljs">julia&gt; using LatexPrint
+
+julia&gt; x = 2//6
+1//3
+
+julia&gt; lap(x)
+\frac{1}{3}</code></pre><p>We also provide the function <code>laprint</code> which does not append a new line (just like <code>print</code>).</p><p>These functions rely on <code>latex_form</code> which converts a Julia object into an <code>String</code> representation in its LaTeX form:</p><pre><code class="nohighlight hljs">julia&gt; latex_form(x)
+&quot;\\frac{1}{3}&quot;</code></pre><p>The double backslash in the output of <code>latex_form</code> is converted to a single backslash when run through a <code>print</code> function.</p><h2 id="Numbers"><a class="docs-heading-anchor" href="#Numbers">Numbers</a><a id="Numbers-1"></a><a class="docs-heading-anchor-permalink" href="#Numbers" title="Permalink"></a></h2><h3 id="Integers-and-floating-point-numbers"><a class="docs-heading-anchor" href="#Integers-and-floating-point-numbers">Integers and floating point numbers</a><a id="Integers-and-floating-point-numbers-1"></a><a class="docs-heading-anchor-permalink" href="#Integers-and-floating-point-numbers" title="Permalink"></a></h3><p><code>FloatingPoint</code> and <code>Integer</code> numbers are printed unchanged.</p><pre><code class="nohighlight hljs">julia&gt; lap(sqrt(2))
+1.4142135623730951
+
+julia&gt; lap(23)
+23</code></pre><p>However, infinite and invalid values are printed as follows:</p><pre><code class="nohighlight hljs">julia&gt; lap(1/0)
+\infty
+
+julia&gt; lap(-1/0)
+-\infty
+
+julia&gt; lap(0/0)
+\text{NaN}</code></pre><p>Julia&#39;s <code>MathConst</code> numbers are printed using their expected LaTeX form:</p><pre><code class="nohighlight hljs">julia&gt; lap(pi)
+\pi</code></pre><h3 id="Rational-numbers"><a class="docs-heading-anchor" href="#Rational-numbers">Rational numbers</a><a id="Rational-numbers-1"></a><a class="docs-heading-anchor-permalink" href="#Rational-numbers" title="Permalink"></a></h3><p>Rational numbers are printed as fractions (unless the denominator happens to be 1, in which case we print as an integer).</p><pre><code class="nohighlight hljs">julia&gt; lap(10//4)
+\frac{5}{2}
+
+julia&gt; lap(10//2)
+5</code></pre><h3 id="Complex-numbers"><a class="docs-heading-anchor" href="#Complex-numbers">Complex numbers</a><a id="Complex-numbers-1"></a><a class="docs-heading-anchor-permalink" href="#Complex-numbers" title="Permalink"></a></h3><p>Complex numbers always include a real and an imaginary part, even if either part equals zero:</p><pre><code class="nohighlight hljs">julia&gt; z = 1+im
+1 + 1im
+
+julia&gt; lap(z)
+1+1i
+
+julia&gt; lap(z*z)
+0+2i
+
+julia&gt; lap(im^im)
+0.20787957635076193+0.0i</code></pre><h2 id="Boolean-Values"><a class="docs-heading-anchor" href="#Boolean-Values">Boolean Values</a><a id="Boolean-Values-1"></a><a class="docs-heading-anchor-permalink" href="#Boolean-Values" title="Permalink"></a></h2><p>The <code>Bool</code> values <code>true</code> and <code>false</code> output like this:</p><pre><code class="nohighlight hljs">julia&gt; lap(true)
+\mathrm{T}
+
+julia&gt; lap(false)
+\mathrm{F}</code></pre><h2 id="nothing"><a class="docs-heading-anchor" href="#nothing"><code>nothing</code></a><a id="nothing-1"></a><a class="docs-heading-anchor-permalink" href="#nothing" title="Permalink"></a></h2><p>A <code>nothing</code> value is rendered as <code>\mathrm{nothing}</code>.</p><h2 id="Text"><a class="docs-heading-anchor" href="#Text">Text</a><a id="Text-1"></a><a class="docs-heading-anchor-permalink" href="#Text" title="Permalink"></a></h2><p>The LaTeX version of an <code>String</code> is wrapped in the command <code>\text</code> (which requires the <code>amsmath</code> package in LaTeX). The rationale is that we always want to able to paste the output of <code>lap</code> directly into mathematics mode in LaTeX.</p><pre><code class="nohighlight hljs">julia&gt; lap(&quot;Hello, world!&quot;)
+\text{Hello, world!}</code></pre><h2 id="Arrays"><a class="docs-heading-anchor" href="#Arrays">Arrays</a><a id="Arrays-1"></a><a class="docs-heading-anchor-permalink" href="#Arrays" title="Permalink"></a></h2><p>Vectors (one-dimensional arrays) and matrices (two-dimensional arrays) are converted into LaTeX <code>array</code> environments bounded by square brackets with centering alignment. (These default options can be changed; see &quot;Customizing existing types&quot; later in this document.)</p><pre><code class="nohighlight hljs">julia&gt; x = [1,2,3]
+3-element Array{Int64,1}:
+ 1
+ 2
+ 3
+
+julia&gt; lap(x)
+\left[
+\begin{array}{c}
+1 \\
+2 \\
+3 \\
+\end{array}
+\right]
+
+julia&gt; A = eye(3)
+3x3 Array{Float64,2}:
+ 1.0  0.0  0.0
+ 0.0  1.0  0.0
+ 0.0  0.0  1.0
+
+julia&gt; lap(A)
+\left[
+\begin{array}{ccc}
+1.0 &amp; 0.0 &amp; 0.0 \\
+0.0 &amp; 1.0 &amp; 0.0 \\
+0.0 &amp; 0.0 &amp; 1.0 \\
+\end{array}
+\right]</code></pre><p>Vectors are, by default, rendered as a column. To typeset a vector as a row, simply take its transpose:</p><pre><code class="nohighlight hljs">julia&gt; x = [2//3, 4//3, 6//3]
+3-element Array{Rational{Int64},1}:
+ 2//3
+ 4//3
+ 2//1
+
+julia&gt; lap(x&#39;)
+\left[
+\begin{array}{ccc}
+\frac{2}{3} &amp; \frac{4}{3} &amp; 2 \\
+\end{array}
+\right]</code></pre><h2 id="Sets"><a class="docs-heading-anchor" href="#Sets">Sets</a><a id="Sets-1"></a><a class="docs-heading-anchor-permalink" href="#Sets" title="Permalink"></a></h2><p>Julia <code>Set</code> and <code>IntSet</code> objects are rendered as a comma separated list between curly braces. The elements are sorted into ascending order (if possible). An empty set is returned as <code>\emptyset</code> (unless another form is specified using <code>set_empty</code>).</p><pre><code class="nohighlight hljs">julia&gt; A = Set({3.5, 2, -5})
+Set{Any}({2,-5,3.5})
+
+julia&gt; lap(A)
+\left\{-5,2,3.5\right\}
+
+julia&gt; B = IntSet(4,5,1)
+IntSet([1, 4, 5])
+
+julia&gt; lap(B)
+\left\{1,4,5\right\}
+
+julia&gt; C = Set()
+Set{Any}({})
+
+julia&gt; lap(C)
+\emptyset</code></pre><h2 id="The-tabular-Function"><a class="docs-heading-anchor" href="#The-tabular-Function">The <code>tabular</code> Function</a><a id="The-tabular-Function-1"></a><a class="docs-heading-anchor-permalink" href="#The-tabular-Function" title="Permalink"></a></h2><p>If <code>A</code> is a matrix (two-dimensional array), then <code>laprintln(A)</code> (or <code>lap(A)</code>) prints the LaTeX code for that matrix (complete with bounding delimeters) for inclusion in LaTeX&#39;s mathematics mode.</p><p>As an alternative, we also provide the function <code>tabular</code> that prints the array for inclusion in LaTeX&#39;s text mode in the <code>tabular</code> environment.</p><pre><code class="nohighlight hljs">julia&gt; A = Array{Any}(nothing,2,2);
+
+julia&gt; A[1,1] = 1; A[1,2] = 3+im; A[2,1]=5//2; A[2,2] = 1/0;
+
+julia&gt; tabular(A)
+\begin{tabular}{cc}
+$1$ &amp; $3+1i$\\
+$\frac{5}{2}$ &amp; $\infty$
+\end{tabular}</code></pre><p>Notice that each entry is encased in dollar signs.</p><p>By default, each column is center aligned. This can be modified in two ways. See the <code>set_align</code> function described below or by calling <code>tabular</code> with the named <code>alignment</code> argument, like this:</p><pre><code class="nohighlight hljs">julia&gt; tabular(A,alignment=&quot;l|r&quot;)
+\begin{tabular}{l|r}
+$1$ &amp; $3+1i$\\
+$\frac{5}{2}$ &amp; $\infty$
+\end{tabular}</code></pre><p>In addition, the end-of-line command <code>\\</code> can be changed to <code>\\ \hline</code> (so LaTeX inserts a horizontal line between rows) by means of the named <code>hlines</code> argument:</p><pre><code class="nohighlight hljs">julia&gt; tabular(A,hlines=true)
+\begin{tabular}{cc}
+$1$ &amp; $3+1i$\\ \hline
+$\frac{5}{2}$ &amp; $\infty$
+\end{tabular}</code></pre><p>Note that the last row of the array does not include an <code>\hline</code>.</p><h2 id="Customization"><a class="docs-heading-anchor" href="#Customization">Customization</a><a id="Customization-1"></a><a class="docs-heading-anchor-permalink" href="#Customization" title="Permalink"></a></h2><h3 id="Customizing-existing-types"><a class="docs-heading-anchor" href="#Customizing-existing-types">Customizing existing types</a><a id="Customizing-existing-types-1"></a><a class="docs-heading-anchor-permalink" href="#Customizing-existing-types" title="Permalink"></a></h3><p>The <code>LatexPrint</code> module comes with default LaTeX representations for infinity, not-a-number, and so forth. Some of these can be modified by the following functions.</p><ul><li><code>set_inf</code> is used to set the representation of infinity. The default</li></ul><pre><code class="nohighlight hljs">creates the output `\infty` but here&#39;s how it can be changed.
+```
+julia&gt; lap(1/0)
+\infty
+
+julia&gt; set_inf(&quot;\\text{inf}&quot;)  # note the double backslash
+&quot;\\text{inf}&quot;
+
+julia&gt; lap(1/0)
+\text{inf}
+```</code></pre><ul><li><p><code>set_nan</code> is used to set the LaTeX for not-a-number:</p><pre><code class="nohighlight hljs">julia&gt; lap(0/0)
+\text{NaN}
+
+julia&gt; set_nan(&quot;\\text{nan}&quot;)
+&quot;\\text{nan}&quot;
+
+julia&gt; lap(0/0)
+\text{nan}</code></pre></li><li><p><code>set_bool</code> is used to set the LaTeX form of <code>true</code> and <code>false</code>. By default, these output <code>\textrm{T}</code> and <code>\textrm{F}</code>. This is how these can be changed:</p><pre><code class="nohighlight hljs">julia&gt; lap(true)
+\mathrm{T}
+
+julia&gt; set_bool(&quot;\\textsf{true}&quot;, &quot;\\textsf{false}&quot;)
+(&quot;\\textsf{true}&quot;,&quot;\\textsf{false}&quot;)
+
+julia&gt; lap(true)
+\textsf{true}</code></pre></li><li><p><code>set_im</code> changes the symbol used for the imaginary unit. Some folks like <em>j</em> instead of <em>i</em>:</p><pre><code class="nohighlight hljs">julia&gt; z = 3+2im
+3 + 2im
+
+julia&gt; lap(z)
+3+2i
+
+julia&gt; set_im(&quot;j&quot;)
+&quot;j&quot;
+
+julia&gt; lap(z)
+3+2j</code></pre></li><li><p><code>set_emptyset</code> is used to specify how an empty set should be rendered.</p><pre><code class="nohighlight hljs">julia&gt; C = Set()
+Set{Any}({})
+
+julia&gt; lap(C)
+\emptyset
+
+julia&gt; set_emptyset(&quot;\\{ \\}&quot;)
+&quot;\\{ \\}&quot;
+
+julia&gt; lap(C)
+\{ \}</code></pre><p>Users might like to try <code>\varnothing</code> as a nice alternative to <code>\empytset</code>. In that case, the Julia command would be <code>set_emptyset(&quot;\\varnothing&quot;)</code>.</p></li><li><p><code>set_align</code> is used to specify the alignment character for arrays. By default elements of columns are aligned to their center. Use one of <code>l</code>, <code>r</code>, or <code>c</code> as the alignment character.</p><pre><code class="nohighlight hljs">julia&gt; lap(A)
+\left[
+\begin{array}{c}
+2 \\
+10 \\
+-544 \\
+\end{array}
+\right]
+
+julia&gt; set_align(&quot;r&quot;)
+
+julia&gt; lap(A)
+\left[
+\begin{array}{r}
+2 \\
+10 \\
+-544 \\
+\end{array}
+\right]</code></pre></li><li><p><code>set_delims</code> is used to specify the left and right delimiters used for vectors and matrices.</p><pre><code class="nohighlight hljs">julia&gt; A = int(eye(2))
+2x2 Array{Int64,2}:
+ 1  0
+ 0  1
+
+julia&gt; lap(A)
+\left[
+\begin{array}{cc}
+1 &amp; 0 \\
+0 &amp; 1 \\
+\end{array}
+\right]
+
+julia&gt; set_delims(&quot;(&quot;, &quot;)&quot;)  # set delimiters to be open/close parens
+(&quot;(&quot;,&quot;)&quot;)
+
+julia&gt; lap(A)
+\left(
+\begin{array}{cc}
+1 &amp; 0 \\
+0 &amp; 1 \\
+\end{array}
+\right)</code></pre></li><li><p><code>set_nothing</code> is used to specify the output of a <code>nothing</code> value. For example, to output an em-dash, we can do this:</p><pre><code class="nohighlight hljs">julia&gt; lap(nothing)
+\mathrm{nothing}
+
+julia&gt; set_nothing(&quot;\\mathrm{---}&quot;)
+&quot;\\mathrm{---}&quot;
+
+julia&gt; lap(nothing)
+\mathrm{---}</code></pre></li></ul><h3 id="Adding-new-types"><a class="docs-heading-anchor" href="#Adding-new-types">Adding new types</a><a id="Adding-new-types-1"></a><a class="docs-heading-anchor-permalink" href="#Adding-new-types" title="Permalink"></a></h3><p>There are other Julia types (such as <code>UnitRange</code>) for which we have not implemented a conversion to LaTeX. In this case <code>lap</code> (and our other functions) simply convert the type to an <code>String</code>.</p><pre><code class="nohighlight hljs">julia&gt; lap(1:10)
+1:10</code></pre><p>If we want to create a LaTeX representation, then we need to define a suitable version of <code>latex_form</code> like this:</p><pre><code class="nohighlight hljs">julia&gt; import LatexPrint.latex_form
+
+julia&gt; latex_form(x::UnitRange) = &quot;[&quot; * string(x.start) * &quot;,&quot; * string(x.stop) * &quot;]&quot;
+latex_form (generic function with xxx methods)
+
+julia&gt; lap(1:10)
+[1,10]</code></pre></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.5.0 on <span class="colophon-date" title="Sunday 25 August 2024 16:00">Sunday 25 August 2024</span>. Using Julia version 1.10.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

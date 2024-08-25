@@ -63,7 +63,7 @@ matrix delimeters.
 function set_delims(lt::Ctype, rt::Ctype)
     global LEFT = string(lt)
     global RIGHT = string(rt)
-    return (lt,rt)
+    return (lt, rt)
 end
 
 """
@@ -91,7 +91,7 @@ end
 function set_bool(t::Ctype, f::Ctype)
     global TRUE = string(t)
     global FALSE = string(f)
-    return (TRUE,FALSE)
+    return (TRUE, FALSE)
 end
 
 # The latex_form function is the central workhorse for converting a
@@ -113,7 +113,7 @@ function latex_form(x::AbstractFloat)
         return NAN
     end
     if isinf(x)
-        if x>0
+        if x > 0
             return INF
         end
         return "-" * INF
@@ -123,19 +123,19 @@ end
 
 # special case for MathConst's
 function latex_form(x::Irrational)
-    if x==Base.MathConstants.pi
+    if x == Base.MathConstants.pi
         return "\\pi"
     end
 
-    if x==Base.MathConstants.e
+    if x == Base.MathConstants.e
         return "e"
     end
 
-    if x==Base.MathConstants.golden
+    if x == Base.MathConstants.golden
         return "\\phi"
     end
 
-    if x==Base.MathConstants.eulergamma
+    if x == Base.MathConstants.eulergamma
         return "\\gamma"
     end
 
@@ -149,19 +149,19 @@ latex_form(x::Integer) = string(x)
 latex_form(x::Bool) = x ? TRUE : FALSE
 
 # rational numbers are presented as \frac fractions
-function latex_form(q::Rational{T}) where T
+function latex_form(q::Rational{T}) where {T}
     a::T = numerator(q)
     b::T = denominator(q)
 
-    if b==0  # This is some form of infinity
-        if a>0
+    if b == 0  # This is some form of infinity
+        if a > 0
             return INF
         else
             return "-" * INF
         end
     end
 
-    if b==1  # Just print the numerator; it's an integer value
+    if b == 1  # Just print the numerator; it's an integer value
         return latex_form(a)
     end
 
@@ -169,7 +169,7 @@ function latex_form(q::Rational{T}) where T
 end
 
 # Complex numbers
-function latex_form(z::Complex{T}) where T
+function latex_form(z::Complex{T}) where {T}
     if isnan(z)
         return NAN
     end
@@ -177,7 +177,7 @@ function latex_form(z::Complex{T}) where T
         return INF
     end
 
-    a,b = reim(z)
+    a, b = reim(z)
 
     if T == Bool  # Complex{Bool} treated like Complex{Int}
         a = Int(a)
@@ -202,9 +202,9 @@ function latex_form(A::Union{Set,BitSet})
     n = length(elements)
 
     result = "\\left\\{"
-    for k=1:n
+    for k = 1:n
         result *= latex_form(elements[k])
-        if k<n
+        if k < n
             result *= ","
         else
             result *= "\\right\\}"
@@ -214,28 +214,28 @@ function latex_form(A::Union{Set,BitSet})
 end
 
 # Vectors (1-dimensional arrays)
-function latex_form(A::AbstractArray{T,1}) where T
+function latex_form(A::AbstractArray{T,1}) where {T}
     result = "\\left" * LEFT * "\n\\begin{array}{" * ALIGN * "}\n"
     for x in A
-        result *= latex_form(x)*EOL
+        result *= latex_form(x) * EOL
     end
     result *= "\\end{array}\n\\right" * RIGHT
     return result
 end
 
 # Matrices (2-dimensional arrays)
-function latex_form(A::AbstractArray{T,2}) where T
-    (r,c) = size(A)
+function latex_form(A::AbstractArray{T,2}) where {T}
+    (r, c) = size(A)
 
     # Header
-    result  = "\\left" * LEFT * "\n\\begin{array}{"
-    result *= (ALIGN ^ c) * "}\n"
+    result = "\\left" * LEFT * "\n\\begin{array}{"
+    result *= (ALIGN^c) * "}\n"
 
     # Row-by-row
-    for a=1:r
-        for b=1:c
-            result *= latex_form(A[a,b])
-            if b<c
+    for a = 1:r
+        for b = 1:c
+            result *= latex_form(A[a, b])
+            if b < c
                 result *= TAB
             else
                 result *= EOL
@@ -261,8 +261,8 @@ latex_form(x::Any) = string(x)
 `laprint(x...)` is like Julia's `print` but converts each
 argument using `latex_print`.
 """
- function laprint(x...)
-    xs = map(latex_form,x)
+function laprint(x...)
+    xs = map(latex_form, x)
     print(xs...)
 end
 
@@ -271,7 +271,7 @@ end
 argument using `latex_print`.
 """
 function laprintln(x...)
-    xs = map(latex_form,x)
+    xs = map(latex_form, x)
     println(xs...)
 end
 
@@ -283,12 +283,12 @@ lap(x...) = laprintln(x...)  # abbreviation
 # Same functions, but now with IO option.
 
 function laprint(io::IO, x...)
-    xs = map(latex_form,x)
+    xs = map(latex_form, x)
     print(io, xs...)
 end
 
 function laprintln(io::IO, x...)
-    xs = map(latex_form,x)
+    xs = map(latex_form, x)
     println(io, xs...)
 end
 
@@ -307,22 +307,26 @@ This function takes two optional (named) arguments:
 * `hlines` is a `Bool` for controlling the addition of `\\hline` at the end of
     every row (except the last row). This is `false` by default.
 """
-function tabular(A::AbstractArray{T,2}; alignment::String="", hlines::Bool=false) where T
+function tabular(
+    A::AbstractArray{T,2};
+    alignment::String = "",
+    hlines::Bool = false,
+) where {T}
     eol = get_eol(!hlines)
-    (r,c) = size(A)
+    (r, c) = size(A)
 
-    if length(alignment)==0
+    if length(alignment) == 0
         alignment = ALIGN^c
     end
 
     println("\\begin{tabular}{", alignment, "}")
-    for a=1:r
-        for b=1:c
-            print("\$",latex_form(A[a,b]),"\$")
-            if b<c
+    for a = 1:r
+        for b = 1:c
+            print("\$", latex_form(A[a, b]), "\$")
+            if b < c
                 print(" & ")
             else
-                if a<r
+                if a < r
                     println(eol)
                 end
             end
@@ -332,8 +336,10 @@ function tabular(A::AbstractArray{T,2}; alignment::String="", hlines::Bool=false
 end
 
 function __init__()
-    @require DataFrames="a93c6f00-e57d-5684-b7b6-d8193f3e46c0" include("tabular_dataframes.jl")
-    @require Measurements="eff96d63-e80a-5855-80a2-b1b0885c5ab7" begin
+    @require DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0" include(
+        "tabular_dataframes.jl",
+    )
+    @require Measurements = "eff96d63-e80a-5855-80a2-b1b0885c5ab7" begin
         using .Measurements: Measurement
         latex_form(x::Measurement) = latex_form(x.val) * "\\pm " * latex_form(x.err)
     end
