@@ -91,9 +91,8 @@ julia> lap(10//2)
 
 Fractions in arrays and displayed equations might look too large. The function `set_small_frac` 
 changes `\frac` to `\tfrac`. Use `set_small_frac(false)` to revert to the original behavior. 
-$$
-\frac23 \text{ vs } \frac23
-$$ 
+
+Note that `\tfrac` requires the LaTeX `amsmath` package. 
 
 ### Complex numbers
 
