@@ -94,6 +94,30 @@ changes `\frac` to `\tfrac`. Use `set_small_frac(false)` to revert to the origin
 
 Note that `\tfrac` requires the LaTeX `amsmath` package. 
 
+Users may also select for fractions to be written with a slash by invoking `set_slash()`. 
+In this case `latex_form(3//6)` returns `"2/3"`. Use `set_slash(false)` to restore the usual
+behavior. 
+
+```
+julia> a = 2//3
+2//3
+
+julia> lap(a)
+\frac{2}{3}
+
+julia> set_small_frac()
+"\\tfrac"
+
+julia> lap(a)
+\tfrac{2}{3}
+
+julia> set_slash()
+true
+
+julia> lap(a)
+2/3
+```
+
 ### Complex numbers
 
 Complex numbers always include a real and an imaginary part, even if

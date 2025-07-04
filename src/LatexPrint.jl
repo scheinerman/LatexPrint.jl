@@ -10,7 +10,7 @@ export latex_form,
     set_align,
     set_im,
     set_bool,
-    set_nothing,
+    set_nothing, set_slash,
     set_small_frac,
     tabular
 
@@ -36,6 +36,7 @@ global STD_EOL = "\\\\"
 global HLINE_EOL = "\\\\ \\hline"
 
 global FRAC = "\\frac"
+global SLASH = false
 
 # The set_xxx functions may take a string or a single character
 Ctype = Union{String,Char}
@@ -132,6 +133,10 @@ function set_small_frac(sm::Bool=true)
     global FRAC = sm ? "\\tfrac" : "\\frac"
 end
 
+function set_slash(sl::Bool = true)
+    global SLASH = sl
+end
+
 # The latex_form function is the central workhorse for converting a
 # Julia object to a character string (of type String) that can be
 # printed (and then pasted into LaTeX mathmode). We create a version
@@ -203,6 +208,10 @@ function latex_form(q::Rational{T}) where {T}
 
     if b == 1  # Just print the numerator; it's an integer value
         return latex_form(a)
+    end
+
+    if SLASH 
+        return latex_form(a)*"/"*latex_form(b)
     end
 
     return FRAC * "{" * latex_form(a) * "}{" * latex_form(b) * "}"
