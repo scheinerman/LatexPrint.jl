@@ -89,6 +89,11 @@ julia> lap(10//2)
 5
 ```
 
+Fractions in arrays and displayed equations might look too large. The function `set_small_frac` 
+changes `\frac` to `\tfrac`. Use `set_small_frac(false)` to revert to the original behavior. 
+
+Note that `\tfrac` requires the `amsmath` package. 
+
 ### Complex numbers
 
 Complex numbers always include a real and an imaginary part, even if

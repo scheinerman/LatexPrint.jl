@@ -125,8 +125,8 @@ end
 """
     set_small_frac(sm::Bool = true)
 
-Change LaTeX form for fractions to `\tfrac{x}{y}`. Use 
-`set_small_frac(false)` to restore standard output of `\frac{x}{y}`.
+Change LaTeX form for fractions to `\\tfrac{x}{y}`. Use 
+`set_small_frac(false)` to restore standard output of `\\frac{x}{y}`.
 """
 function set_small_frac(sm::Bool=true)
     global FRAC = sm ? "\\tfrac" : "\\frac"
