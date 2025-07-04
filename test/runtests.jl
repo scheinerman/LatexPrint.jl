@@ -26,6 +26,8 @@ set_small_frac(true)
 @test latex_form(2//3) == "\\tfrac{2}{3}"
 set_small_frac(false)
 @test latex_form(2//3) == "\\frac{2}{3}"
+set_slash()
+@test latex_form(2//3) == "2/3"
 
 io = IOBuffer()
 df = DataFrame("Name" => ["A", "B"], "Score" => Any[6.1 ± 1.3, π])
