@@ -1,7 +1,6 @@
 import .DataFrames.DataFrame
 
-
-function tabular(io::IO, A::DataFrame; alignment::String = "", rounding::Int = 0)
+function tabular(io::IO, A::DataFrame; alignment::String="", rounding::Int=0)
     (r, c) = size(A)
 
     if length(alignment) == 0
@@ -18,16 +17,16 @@ function tabular(io::IO, A::DataFrame; alignment::String = "", rounding::Int = 0
     end
     println(io, get_eol(false))
     println(io, "\\hline")
-    for a = 1:r
-        for b = 1:c
+    for a in 1:r
+        for b in 1:c
             print(
-                io,
-                "\$",
-                latex_form(
-                    (rounding > 0) && typeof(A[a, b]) <: Number ? round(A[a, b], rounding) :
-                    A[a, b],
-                ),
-                "\$",
+                io, "\$", latex_form(
+                    if (rounding > 0) && typeof(A[a, b]) <: Number
+                        round(A[a, b], rounding)
+                    else
+                        A[a, b]
+                    end,
+                ), "\$"
             )
             if b < c
                 print(io, " & ")

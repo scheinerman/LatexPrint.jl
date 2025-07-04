@@ -1,8 +1,18 @@
 module LatexPrint
-export latex_form, laprint, laprintln, lap, tabular
-
-export set_nan, set_inf, set_emptyset, set_delims, set_align
-export set_im, set_bool, set_nothing
+export latex_form,
+    laprint,
+    laprintln,
+    lap,
+    set_nan,
+    set_inf,
+    set_emptyset,
+    set_delims,
+    set_align,
+    set_im,
+    set_bool,
+    set_nothing,
+    set_small_frac,
+    tabular
 
 using Requires
 
@@ -25,10 +35,14 @@ global ALIGN = "c"   # default alignment character
 global STD_EOL = "\\\\"
 global HLINE_EOL = "\\\\ \\hline"
 
+global FRAC = "\\frac"
+
 # The set_xxx functions may take a string or a single character
 Ctype = Union{String,Char}
 
 """
+    set_nan(msg::Ctype)
+
 `set_nan(msg)` sets the `latex_print` output for a `NaN` value.
 """
 function set_nan(msg::Ctype)
@@ -36,6 +50,8 @@ function set_nan(msg::Ctype)
 end
 
 """
+    set_nothing(msg::Ctype)
+
 `set_nothing(msg)` sets the `latex_print` output for a `nothing` value.
 """
 function set_nothing(msg::Ctype)
@@ -43,6 +59,8 @@ function set_nothing(msg::Ctype)
 end
 
 """
+    set_inf(msg::Ctype)
+
 `set_inf(msg)` sets the `latex_print` output for infinity.
 """
 function set_inf(msg::Ctype)
@@ -50,6 +68,8 @@ function set_inf(msg::Ctype)
 end
 
 """
+    set_emptyset(msg::Ctype)
+
 `set_emptyset(msg)` sets the `latex_print` output for the empty set.
 """
 function set_emptyset(msg::Ctype)
@@ -57,6 +77,8 @@ function set_emptyset(msg::Ctype)
 end
 
 """
+    set_delims(lt::Ctype, rt::Ctype)
+
 `set_delims(lt,rt)` sets the `latex_print` output for left and right
 matrix delimeters.
 """
@@ -67,6 +89,8 @@ function set_delims(lt::Ctype, rt::Ctype)
 end
 
 """
+    set_align(ch::Ctype)
+
 `set_align(ch)` sets the alignment character for matrices. Should
 be one of `l`, `r`, or `c`.
 """
@@ -78,13 +102,17 @@ function set_align(ch::Ctype)
 end
 
 """
-`set_im(ch)` sets the output for \$i\$ (square root of -1).
+    set_im(i::Ctype)
+
+`set_im(ch)` sets the output for `i` (square root of -1).
 """
 function set_im(i::Ctype)
     global IM = string(i)
 end
 
 """
+    set_bool(t::Ctype, f::Ctype)
+
 `set_bool(tmsg, fmsg)` sets the output for the Boolean values
 `true` and `false`.
 """
@@ -92,6 +120,16 @@ function set_bool(t::Ctype, f::Ctype)
     global TRUE = string(t)
     global FALSE = string(f)
     return (TRUE, FALSE)
+end
+
+"""
+    set_small_frac(sm::Bool = true)
+
+Change LaTeX form for fractions to `\tfrac{x}{y}`. Use 
+`set_small_frac(false)` to restore standard output of `\frac{x}{y}`.
+"""
+function set_small_frac(sm::Bool=true)
+    global FRAC = sm ? "\\tfrac" : "\\frac"
 end
 
 # The latex_form function is the central workhorse for converting a
@@ -102,6 +140,8 @@ end
 
 # character strings we wrap in "\text"
 """
+    latex_form
+
 `latex_form(arg)` writes `arg` to the screen in a form
 suitable for pasting into a LaTeX document.
 """
@@ -165,7 +205,7 @@ function latex_form(q::Rational{T}) where {T}
         return latex_form(a)
     end
 
-    return "\\frac{" * latex_form(a) * "}{" * latex_form(b) * "}"
+    return FRAC * "{" * latex_form(a) * "}{" * latex_form(b) * "}"
 end
 
 # Complex numbers
@@ -202,7 +242,7 @@ function latex_form(A::Union{Set,BitSet})
     n = length(elements)
 
     result = "\\left\\{"
-    for k = 1:n
+    for k in 1:n
         result *= latex_form(elements[k])
         if k < n
             result *= ","
@@ -232,8 +272,8 @@ function latex_form(A::AbstractArray{T,2}) where {T}
     result *= (ALIGN^c) * "}\n"
 
     # Row-by-row
-    for a = 1:r
-        for b = 1:c
+    for a in 1:r
+        for b in 1:c
             result *= latex_form(A[a, b])
             if b < c
                 result *= TAB
@@ -267,7 +307,9 @@ function laprint(x...)
 end
 
 """
-`laprintln(x...)` is like Julia's `print` but converts each
+    laprintln(x...)
+
+`laprintln(x...)` is like Julia's `println` but converts each
 argument using `latex_print`.
 """
 function laprintln(x...)
@@ -276,7 +318,9 @@ function laprintln(x...)
 end
 
 """
-`lap(x...)` is a short version of `laprintln(x...)`.
+    lap(x...)
+
+A short version of `laprintln(x...)`.
 """
 lap(x...) = laprintln(x...)  # abbreviation
 
@@ -297,7 +341,9 @@ lap(io::IO, x...) = laprintln(io, x...)
 get_eol(std::Bool) = std ? STD_EOL : HLINE_EOL
 
 """
-`tabular(A)` returns a LaTeX version of the two-dimensional array `A`.
+    tabular(A::AbstractArray{T,2}; alignment::String="", hlines::Bool=false) where {T}
+
+Returnsa LaTeX version of the two-dimensional array `A`.
 This function takes two optional (named) arguments:
 * `alignment` is a `String` giving the LaTeX alignment codes for the columns.
     For example, if `A` is a `2`-by-`3` array, then `"cc|r"` would specify that the
@@ -307,11 +353,7 @@ This function takes two optional (named) arguments:
 * `hlines` is a `Bool` for controlling the addition of `\\hline` at the end of
     every row (except the last row). This is `false` by default.
 """
-function tabular(
-    A::AbstractArray{T,2};
-    alignment::String = "",
-    hlines::Bool = false,
-) where {T}
+function tabular(A::AbstractArray{T,2}; alignment::String="", hlines::Bool=false) where {T}
     eol = get_eol(!hlines)
     (r, c) = size(A)
 
@@ -320,8 +362,8 @@ function tabular(
     end
 
     println("\\begin{tabular}{", alignment, "}")
-    for a = 1:r
-        for b = 1:c
+    for a in 1:r
+        for b in 1:c
             print("\$", latex_form(A[a, b]), "\$")
             if b < c
                 print(" & ")
@@ -337,7 +379,7 @@ end
 
 function __init__()
     @require DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0" include(
-        "tabular_dataframes.jl",
+        "tabular_dataframes.jl"
     )
     @require Measurements = "eff96d63-e80a-5855-80a2-b1b0885c5ab7" begin
         using .Measurements: Measurement

@@ -1,7 +1,7 @@
 name = "LatexPrint"
 uuid = "d2208f48-c256-5759-9089-c25ed2a93924"
 author = ["Edward Scheinerman <ers@jhu.edu>"]
-version = "1.1.1"
+version = "1.2.0"
 
 [deps]
 Requires = "ae029012-a4dd-5104-9daa-d747884805df"

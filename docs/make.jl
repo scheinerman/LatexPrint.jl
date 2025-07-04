@@ -2,4 +2,4 @@
 # julia --color=yes --project make.jl
 
 using Documenter, LatexPrint
-makedocs(; sitename = "LatexPrint")
+makedocs(; sitename="LatexPrint")
