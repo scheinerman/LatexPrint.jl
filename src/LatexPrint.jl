@@ -10,7 +10,8 @@ export latex_form,
     set_align,
     set_im,
     set_bool,
-    set_nothing, set_slash,
+    set_nothing,
+    set_slash,
     set_small_frac,
     tabular
 
@@ -133,7 +134,7 @@ function set_small_frac(sm::Bool=true)
     global FRAC = sm ? "\\tfrac" : "\\frac"
 end
 
-function set_slash(sl::Bool = true)
+function set_slash(sl::Bool=true)
     global SLASH = sl
 end
 
@@ -210,11 +211,14 @@ function latex_form(q::Rational{T}) where {T}
         return latex_form(a)
     end
 
-    if SLASH 
-        return latex_form(a)*"/"*latex_form(b)
+    sign = a<0 ? "-" : ""
+    a = abs(a)
+
+    if SLASH
+        return sign*latex_form(a)*"/"*latex_form(b)
     end
 
-    return FRAC * "{" * latex_form(a) * "}{" * latex_form(b) * "}"
+    return sign * FRAC * "{" * latex_form(a) * "}{" * latex_form(b) * "}"
 end
 
 # Complex numbers

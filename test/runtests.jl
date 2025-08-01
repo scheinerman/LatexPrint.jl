@@ -7,7 +7,7 @@ set_small_frac(false)
 @test latex_form(-5) == "-5"
 @test latex_form(2.2) == "2.2"
 @test latex_form("Hello") == "\\text{Hello}"
-@test latex_form(-3 // 5) == "\\frac{-3}{5}"
+@test latex_form(-3 // 5) == "-\\frac{3}{5}"
 @test latex_form(im) == "0+1i"
 @test latex_form(1 / 0) == "\\infty"
 @test latex_form(0 / 0) == "\\text{NaN}"
